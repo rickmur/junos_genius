@@ -1,9 +1,9 @@
 {
-  "name": "myhubot",
+  "name": "junosgenius",
   "version": "0.0.0",
   "private": true,
-  "author": "ksator <khelil.sator@gmail.com>",
-  "description": "A simple helpful robot for your Company",
+  "author": "rm <rm@peakfactory.com>",
+  "description": "Bot to talk to Junos devices",
   "dependencies": {
     "hubot": "^2.19.0",
     "hubot-help": "^0.2.0",

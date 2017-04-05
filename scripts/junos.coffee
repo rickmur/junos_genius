@@ -15,12 +15,12 @@
 #   hubot show <file> - Print a file (playbook, template, python scripts ...). You can use "show" or "sh"
 #   hubot list playbooks - Print the list of Ansible playbooks. You can use "list" or "ls"
 #   hubot list templates - Print the list of Jinja2 templates. You can use "list" or "ls"
-#   hubot list python - Print the list of Python scripts. You can use "list" or "ls"  
+#   hubot list python - Print the list of Python scripts. You can use "list" or "ls"
 #   hubot python <script> - Execute a python <script> and print the program output
 #
 #
 # Author:
-#   Khelil Sator
+# Rick Mur
 
 child_process = require('child_process')
 enterReplies = ['Hi', 'Hello', 'Welcome']
@@ -43,11 +43,11 @@ module.exports = (robot) ->
 
    robot.listen(
      (message) ->
-        message.user.name is "ksator" and Math.random() > 0.85
+        message.user.name is "rm" and Math.random() > 0.85
      (response) ->
-       response.reply "HEY KSATOR! YOU'RE MY BEST FRIEND!"
+       response.reply "HEY RICK! YOU'RE MY BEST FRIEND!"
    )
-    
+
    robot.respond /dev=(.*) playbook (.*)/i, (msg) ->
      msg.send msg.random initial_response
      pb = msg.match[2]
@@ -69,7 +69,7 @@ module.exports = (robot) ->
          msg.send "Oops! " + error + stderr
        else
          msg.send(stdout)
-   
+
    robot.respond /dev=(.*) delete (.*)/i, (msg) ->
      msg.send msg.random initial_response
      cmd = msg.match[2]
@@ -81,7 +81,7 @@ module.exports = (robot) ->
          msg.send "Oops! " + error + stderr
        else
          msg.send(stdout)
-   
+
    robot.respond /dev=(.*) rollback (.*)/i, (msg) ->
      msg.send msg.random initial_response
      rbid = msg.match[2]
@@ -105,7 +105,7 @@ module.exports = (robot) ->
 
    robot.respond /dev=(.*) template (.*)/i, (msg) ->
      msg.send msg.random initial_response
-     template = msg.match[2]      
+     template = msg.match[2]
      dev = msg.match[1]
      extra = "{'device': #{dev}, 'template': #{template}}"
      child_process.exec "ansible-playbook $PWD/ansible/pb.template.yml --extra-vars \"#{extra}\"", (error, stdout, stderr) ->
@@ -132,7 +132,7 @@ module.exports = (robot) ->
        ip = msg.match[3]
        asn = msg.match[4]
        dev = msg.match[1]
-       option = ""   
+       option = ""
        if match = /--check/.test(asn)
           option = "--check #{option}"
           asn = asn.replace(/--check/i,'')
@@ -149,7 +149,7 @@ module.exports = (robot) ->
    robot.respond /dev=(.*) (remove|rm) bgp neigh(bor)? (.*)/i, (msg) ->
      msg.send msg.random initial_response
      dev = msg.match[1]
-     ip = msg.match[4]  
+     ip = msg.match[4]
      extra = "{'device': #{dev}, 'peer_ip': #{ip}}"
      child_process.exec "ansible-playbook $PWD/ansible/pb.remove.ebgp.yml --extra-vars \"#{extra}\"", (error, stdout, stderr) ->
        if error
@@ -185,7 +185,7 @@ module.exports = (robot) ->
    robot.respond /sh(ow)? (.*)/i, (msg) ->
      msg.send "here is it!"
      file = msg.match[2]
-     child_process.exec "cat $PWD/ansible/#{file}", (error, stdout, stderr) -> 
+     child_process.exec "cat $PWD/ansible/#{file}", (error, stdout, stderr) ->
        if error
          msg.send "Oops! " + error + stderr
        else
@@ -197,4 +197,3 @@ module.exports = (robot) ->
      output = child_process.exec "python $PWD/ansible/#{script}"
      output.stdout.on 'data', (data) ->
         msg.send data.toString()
-

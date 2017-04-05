@@ -1,6 +1,5 @@
 [all:children]
-Openconfig_Routers
+Junos_Routers
 
-[Openconfig_Routers]
-FR-MX80-214  junos_host=172.30.108.214
-MX240-04     junos_host=172.30.108.210
+[Junos_Routers]
+hlm-rtr0  junos_host=172.16.249.60
